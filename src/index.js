@@ -41,7 +41,7 @@ const checkScopeAndRole = (arr, req, options, property) => {
     }
   )
 
-  return sufficient ? null : createError(401, 'insufficient permissions')
+  return sufficient ? null : createError(403, 'insufficient permission')
 }
 
 // definition of guard function
