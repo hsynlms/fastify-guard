@@ -75,7 +75,7 @@ test('insufficient role permission', async done => {
     // eslint-disable-next-line
     (err, res) => {
       // eslint-disable-next-line
-      expect(res.statusCode).toBe(401)
+      expect(res.statusCode).toBe(403)
       done()
 
       // close fastify server
@@ -127,7 +127,7 @@ test('insufficient scope permission', async done => {
     // eslint-disable-next-line
     (err, res) => {
       // eslint-disable-next-line
-      expect(res.statusCode).toBe(401)
+      expect(res.statusCode).toBe(403)
       done()
 
       // close fastify server
@@ -197,7 +197,7 @@ test('insufficient role and scope permissions', async done => {
     // eslint-disable-next-line
     (err, res) => {
       // eslint-disable-next-line
-      expect(res.statusCode).toBe(401)
+      expect(res.statusCode).toBe(403)
       done()
 
       // close fastify server
@@ -232,7 +232,7 @@ test('sufficient role and insufficient scope permissions', async done => {
     // eslint-disable-next-line
     (err, res) => {
       // eslint-disable-next-line
-      expect(res.statusCode).toBe(401)
+      expect(res.statusCode).toBe(403)
       done()
 
       // close fastify server
@@ -267,7 +267,7 @@ test('insufficient role and sufficient scope permissions', async done => {
     // eslint-disable-next-line
     (err, res) => {
       // eslint-disable-next-line
-      expect(res.statusCode).toBe(401)
+      expect(res.statusCode).toBe(403)
       done()
 
       // close fastify server
