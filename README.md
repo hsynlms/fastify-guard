@@ -7,6 +7,8 @@
 
 `fastify-guard` is supposed to be used in `preHandler` hook.
 
+Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jwt-permissions).
+
 ## Options
 
 | Name              | Type       | Default   | Description                                                                                                          |
