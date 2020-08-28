@@ -1,0 +1,40 @@
+{
+  "name": "fastify-guard",
+  "version": "1.0.0",
+  "description": "a simple user role and scope checker plugin to protect endpoints for Fastify",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --verbose -i test.js -t",
+    "dev": "node example.js",
+    "lint": "npm run lint:standard",
+    "lint:standard": "standard --verbose | snazzy || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsynlms/fastify-guard.git"
+  },
+  "keywords": [
+    "fastify",
+    "guard",
+    "permission",
+    "role",
+    "scope"
+  ],
+  "author": "Huseyin ELMAS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hsynlms/fastify-guard/issues"
+  },
+  "homepage": "https://github.com/hsynlms/fastify-guard#readme",
+  "dependencies": {
+    "fastify-plugin": "^2.3.2",
+    "http-errors": "^1.8.0",
+    "lodash.get": "^4.4.2"
+  },
+  "devDependencies": {
+    "fastify": "^3.3.0",
+    "jest": "^26.4.2",
+    "snazzy": "^8.0.0",
+    "standard": "^14.3.4"
+  }
+}
