@@ -33,6 +33,214 @@ const generateServer = async (pluginOpts) => {
 // test cases
 
 // eslint-disable-next-line
+test('sufficient role permission (check OR case by providing two roles as arguments)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.role('admin', ['author'])] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient role permission (check OR case by providing two roles as arguments)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.role('author', ['ceo'])] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(403)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('sufficient scope permission (check OR case by providing two scopes as arguments)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.scope('email', ['user:read'])] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient scope permission (check OR case by providing two scopes as arguments)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.scope('user:read', ['user:write'])] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(403)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('sufficient role permission (only string as the argument)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.role('admin')] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient role permission (only string as the argument)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.role('author')] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(403)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('sufficient scope permission (only string as the argument)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.scope('email')] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient scope permission (only string as the argument)', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', { preHandler: [fastify.guard.scope('user:read')] }, (req, reply) => {
+    // send response
+    reply.send()
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(403)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
 test('sufficient role permission', async done => {
   // initialize a fastify server
   const fastify = await generateServer()
@@ -282,7 +490,7 @@ test('wrong argument error', async done => {
   const fastify = await generateServer()
 
   // define a route
-  fastify.get('/', { preHandler: [fastify.guard.role('err')] }, (req, reply) => {
+  fastify.get('/', { preHandler: [fastify.guard.role(true)] }, (req, reply) => {
     // send response
     reply.send()
   })
