@@ -35,10 +35,20 @@ fastify.register(
   }
 )
 
-// this route can only be called by users who has 'admin' role
+// this route can only be called by users who has 'cto' and 'admin' roles
+fastify.get(
+  '/admin',
+  { preHandler: [fastify.guard.role(['cto', 'admin'])] },
+  (req, reply) => {
+    // 'user' should already be defined in req object
+    reply.send(req.user)
+  }
+)
+
+// this route can only be called by users who has 'admin' or 'editor' role
 fastify.get(
   '/',
-  { preHandler: [fastify.guard.role(['admin'])] },
+  { preHandler: [fastify.guard.role('admin', 'editor')] },
   (req, reply) => {
     // 'user' should already be defined in req object
     reply.send(req.user)
