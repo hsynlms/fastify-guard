@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/hsynlms/fastify-guard#readme",
   "dependencies": {
-    "fastify-plugin": "^2.3.2",
+    "fastify-plugin": "^2.3.3",
     "http-errors": "^1.8.0",
     "lodash.get": "^4.4.2"
   },
