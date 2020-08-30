@@ -29,7 +29,7 @@ const defaults = { port: 3000 }
   // below routes are protected by fastify-guard
   fastify.get(
     '/',
-    { preHandler: [fastify.guard.role(['admin'])] },
+    { preHandler: [fastify.guard.role('admin')] },
     (req, reply) => {
       // set return type
       reply.type('application/json')
