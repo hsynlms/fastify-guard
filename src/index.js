@@ -17,8 +17,12 @@ const defaults = {
 
 // definition of role and scope checker function
 const checkScopeAndRole = (arr, req, options, property) => {
-  if (!arr || !Array.isArray(arr)) {
-    return createError(500, 'roles/scopes parameter must be an array')
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i]
+
+    if (typeof item !== 'string' && !Array.isArray(item)) {
+      return createError(500, `roles/scopes parameter excpected to be an array or string but got: ${typeof item}`)
+    }
   }
 
   const user = get(req, options.requestProperty, undefined)
@@ -35,13 +39,25 @@ const checkScopeAndRole = (arr, req, options, property) => {
     return createError(500, `${property} expected to be an aray but got: ${typeof permissions}`)
   }
 
-  const sufficient = arr.every(
-    scope => {
-      return permissions.indexOf(scope) >= 0
-    }
-  )
+  let sufficient = false
 
-  return sufficient ? null : createError(403, 'insufficient permission')
+  // loop roles/scopes array list (may contain sub arrays)
+  arr.forEach(x => {
+    sufficient =
+      sufficient || (
+        Array.isArray(x)
+          ? x.every(
+            scope => {
+              return permissions.indexOf(scope) >= 0
+            }
+          )
+          : permissions.indexOf(x) >= 0
+      )
+  })
+
+  return sufficient
+    ? null
+    : createError(403, 'insufficient permission')
 }
 
 // definition of guard function
@@ -50,7 +66,7 @@ const Guard = function (options) {
 }
 
 Guard.prototype = {
-  role: function (roles) {
+  role: function (...roles) {
     // thanks javascript :)
     const self = this
 
@@ -67,7 +83,7 @@ Guard.prototype = {
       return done(result)
     }
   },
-  scope: function (scopes) {
+  scope: function (...scopes) {
     // thanks javascript :)
     const self = this
 
