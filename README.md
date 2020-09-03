@@ -63,11 +63,7 @@ fastify.listen(3000, () => {
 /*
 http://localhost:3000 -> will print out below result if the authenticated user does not have 'admin' role
 
-{
-  "statusCode": 401,
-  "error": "Unauthorized",
-  "message": "you are not allowed to call this route"
-}
+you are not allowed to call this route
 */
 ```
 
