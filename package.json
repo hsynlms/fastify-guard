@@ -27,14 +27,14 @@
   },
   "homepage": "https://github.com/hsynlms/fastify-guard#readme",
   "dependencies": {
-    "fastify-plugin": "^2.3.3",
+    "fastify-plugin": "^3.0.0",
     "http-errors": "^1.8.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
-    "fastify": "^3.3.0",
-    "jest": "^26.4.2",
-    "snazzy": "^8.0.0",
-    "standard": "^14.3.4"
+    "fastify": "^3.7.0",
+    "jest": "^26.6.3",
+    "snazzy": "^9.0.0",
+    "standard": "^16.0.1"
   }
 }
