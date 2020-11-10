@@ -33,6 +33,182 @@ const generateServer = async (pluginOpts) => {
 // test cases
 
 // eslint-disable-next-line
+test('sufficient hasRole check', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk = fastify.guard.hasRole(req, 'user')
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('true')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient hasRole check', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk = fastify.guard.hasRole(req, 'cmo')
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('false')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('hasRole argument validations', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk =
+      fastify.guard.hasRole(req, '') || fastify.guard.hasRole(null, 'user') || fastify.guard.hasRole()
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(500)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('sufficient hasScope check', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk = fastify.guard.hasScope(req, 'profile')
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('true')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('insufficient hasScope check', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk = fastify.guard.hasScope(req, 'base')
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.payload).toBe('false')
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
+test('hasScope argument validations', async done => {
+  // initialize a fastify server
+  const fastify = await generateServer()
+
+  // define a route
+  fastify.get('/', (req, reply) => {
+    // check if the user has the role
+    const isOk =
+      fastify.guard.hasScope(req, '') || fastify.guard.hasScope(null, 'profile') || fastify.guard.hasScope()
+
+    // send response
+    reply.send(isOk)
+  })
+
+  // test
+  fastify.inject(
+    { method: 'GET', url: '/' },
+    // eslint-disable-next-line
+    (err, res) => {
+      // eslint-disable-next-line
+      expect(res.statusCode).toBe(500)
+      done()
+
+      // close fastify server
+      fastify.close()
+    }
+  )
+})
+
+// eslint-disable-next-line
 test('sufficient role permission (check OR case by providing two roles as arguments)', async done => {
   // initialize a fastify server
   const fastify = await generateServer()
