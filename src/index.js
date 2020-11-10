@@ -15,7 +15,7 @@ const defaults = {
   errorHandler: undefined
 }
 
-// definition of role and scope checker function
+// definitions of role and scope checker functions
 const checkScopeAndRole = (arr, req, options, property) => {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
@@ -60,12 +60,52 @@ const checkScopeAndRole = (arr, req, options, property) => {
     : createError(403, 'insufficient permission')
 }
 
+const hasScopeAndRole = (value, req, options, property) => {
+  // validations
+  if (typeof req !== 'object') {
+    throw new Error(`"request" is expected to be an object but got: ${typeof req}`)
+  }
+
+  if (typeof value !== 'string') {
+    throw new Error(`"value" is expected to be a string but got: ${typeof value}`)
+  }
+
+  if (!value) {
+    throw new Error('"value" cannot be empty.')
+  }
+
+  const user = get(req, options.requestProperty, undefined)
+
+  // validate user existence in the request object
+  if (!user) {
+    throw new Error('"user" was not found in the request')
+  }
+
+  const permissions = get(user, options[property], undefined)
+
+  // validate the property existence in the user object
+  if (typeof permissions === 'undefined') {
+    throw new Error(`"${property}" was not found in user object`)
+  }
+
+  // data type validation of permissions
+  if (!Array.isArray(permissions)) {
+    throw new Error(`"${property}" expected to be an aray but got: ${typeof permissions}`)
+  }
+
+  // check if a user has the permission
+  return permissions.indexOf(value) >= 0
+}
+
 // definition of guard function
 const Guard = function (options) {
   this._options = options
 }
 
 Guard.prototype = {
+  hasRole: function (request, role) {
+    return hasScopeAndRole(role, request, this._options, 'roleProperty')
+  },
   role: function (...roles) {
     // thanks javascript :)
     const self = this
@@ -82,6 +122,9 @@ Guard.prototype = {
       // use predefined handler as fallback
       return done(result)
     }
+  },
+  hasScope: function (request, scope) {
+    return hasScopeAndRole(scope, request, this._options, 'scopeProperty')
   },
   scope: function (...scopes) {
     // thanks javascript :)
