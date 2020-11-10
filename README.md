@@ -79,12 +79,18 @@ fastify.get(
   }
 )
 
+/*
+http://localhost:3000 -> will print out below result if the authenticated user does not have 'admin' role
+
+you are not allowed to call this route
+*/
+
 fastify.get(
   '/has-role',
   (req, reply) => {
     // 'user' should already be defined in req object
     reply.send(
-      fastify.guard.hasRole('admin')
+      fastify.guard.hasRole(req, 'admin') // will return a boolean value
     )
   }
 )
@@ -94,7 +100,7 @@ fastify.get(
   (req, reply) => {
     // 'user' should already be defined in req object
     reply.send(
-      fastify.guard.hasScope('profile')
+      fastify.guard.hasScope(req, 'profile') // will return a boolean value
     )
   }
 )
