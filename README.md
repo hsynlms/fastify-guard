@@ -3,9 +3,7 @@
 
 [![NPM](https://nodei.co/npm/fastify-guard.png)](https://nodei.co/npm/fastify-guard/)
 
-`fastify-guard` is designed to protect API endpoints by checking authenticated user roles and/or scopes if they met or not. It can be accessible as a decorator, named `guard`. `role` and `scope` are exposed guard methods and both generate hook functions for routes under the hood. 
-
-`fastify-guard` is supposed to be used in `preHandler` hook.
+`fastify-guard` is designed to protect API endpoints by checking authenticated user roles and/or scopes if they met or not. `guard` is the registered Fastify decorator and can be used in anywhere.
 
 Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jwt-permissions).
 
@@ -17,6 +15,32 @@ Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jw
 | roleProperty      | string     | `role`    | The role property name that fastify-guard will search in authenticated user object                                   |
 | scopeProperty     | string     | `scope`   | The scope property name that fastify-guard will search in authenticated user object                                  |
 | errorHandler      | function   | undefined | Custom error handler to manipulate the response that will be returned. As fallback, default HTTP error messages will be returned. |
+
+## API
+
+### `guard.role(role)`
+
+Returns a function which checks if the authenticated user has the given role(s). Multiple roles can be sent as separated parameters or in an array. If the given role(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
+
+### `guard.hasRole(request, role)`
+
+Returns a boolean value which indicates the authenticated user has the given role.
+
+`request` is the Fastify request object
+
+`role` is role name
+
+### `guard.scope(scope)`
+
+Returns a function which checks if the authenticated user has the given scope(s). Multiple scopes can be sent as separated parameters or in an array. If the given scope(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
+
+### `guard.hasScope(request, scope)`
+
+Returns a boolean value which indicates the authenticated user has the given scope.
+
+`request` is the Fastify request object
+
+`scope` is scope name
 
 ## Examples
 
