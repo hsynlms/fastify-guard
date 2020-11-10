@@ -79,6 +79,26 @@ fastify.get(
   }
 )
 
+fastify.get(
+  '/has-role',
+  (req, reply) => {
+    // 'user' should already be defined in req object
+    reply.send(
+      fastify.guard.hasRole('admin')
+    )
+  }
+)
+
+fastify.get(
+  '/has-scope',
+  (req, reply) => {
+    // 'user' should already be defined in req object
+    reply.send(
+      fastify.guard.hasScope('profile')
+    )
+  }
+)
+
 // initialize the fastify server
 fastify.listen(3000, () => {
   console.log('Fastify server is running on port: 3000')
