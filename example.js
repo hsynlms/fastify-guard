@@ -27,9 +27,8 @@ const defaults = { port: 3000 }
     { preHandler: [fastify.guard.role('admin')] },
     (req, reply) => {
       reply
-      reply.type('application/json')
-
-      reply.send(req.user)
+        .type('application/json')
+        .send(req.user)
     }
   )
 
@@ -38,9 +37,8 @@ const defaults = { port: 3000 }
     { preHandler: [fastify.guard.role(['supervisor'])] },
     (req, reply) => {
       reply
-      reply.type('application/json')
-
-      reply.send(req.user)
+        .type('application/json')
+        .send(req.user)
     }
   )
 
