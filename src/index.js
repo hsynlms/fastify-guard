@@ -1,12 +1,10 @@
 'use strict'
 
-// get required modules
 const fastifyPlugin = require('fastify-plugin')
 const get = require('lodash.get')
 const createError = require('http-errors')
 const pkg = require('../package.json')
 
-// plugin defaults
 const defaults = {
   decorator: 'guard',
   requestProperty: 'user',
@@ -15,7 +13,6 @@ const defaults = {
   errorHandler: undefined
 }
 
-// definitions of role and scope checker functions
 const checkScopeAndRole = (arr, req, options, property) => {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i]
@@ -61,7 +58,6 @@ const checkScopeAndRole = (arr, req, options, property) => {
 }
 
 const hasScopeAndRole = (value, req, options, property) => {
-  // validations
   if (typeof req !== 'object') {
     throw new Error(`"request" is expected to be an object but got: ${typeof req}`)
   }
@@ -76,28 +72,23 @@ const hasScopeAndRole = (value, req, options, property) => {
 
   const user = get(req, options.requestProperty, undefined)
 
-  // validate user existence in the request object
   if (!user) {
     throw new Error('"user" was not found in the request')
   }
 
   const permissions = get(user, options[property], undefined)
 
-  // validate the property existence in the user object
   if (typeof permissions === 'undefined') {
     throw new Error(`"${property}" was not found in user object`)
   }
 
-  // data type validation of permissions
   if (!Array.isArray(permissions)) {
     throw new Error(`"${property}" expected to be an aray but got: ${typeof permissions}`)
   }
 
-  // check if a user has the permission
   return permissions.indexOf(value) >= 0
 }
 
-// definition of guard function
 const Guard = function (options) {
   this._options = options
 }
@@ -145,24 +136,18 @@ Guard.prototype = {
   }
 }
 
-// declaration of guard plugin for fastify
 function guardPlugin (fastify, opts, next) {
-  // combine defaults with provided options
   const options = Object.assign({}, defaults, opts)
 
-  // validation
   if (options.errorHandler && typeof options.errorHandler !== 'function') {
     throw new Error('custom error handler must be a function')
   }
 
-  // register the guard as a decorator
   fastify.decorate(options.decorator, new Guard(options))
 
-  // done
   next()
 }
 
-// export the plugin
 module.exports = fastifyPlugin(
   guardPlugin,
   {

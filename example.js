@@ -1,15 +1,12 @@
 'use strict'
 
-// get required node modules
 const fastify = require('fastify')()
 const fastifyGuard = require('./src/index')
 const chalk = require('chalk')
 
-// defaults
 const defaults = { port: 3000 }
 
 ;(async () => {
-  // register the plugin
   await fastify.register(fastifyGuard)
 
   // simulation for user authentication process
@@ -22,19 +19,16 @@ const defaults = { port: 3000 }
       location: 'Istanbul'
     }
 
-    // all done
     done()
   })
 
-  // below routes are protected by fastify-guard
   fastify.get(
     '/',
     { preHandler: [fastify.guard.role('admin')] },
     (req, reply) => {
-      // set return type
+      reply
       reply.type('application/json')
 
-      // return the user
       reply.send(req.user)
     }
   )
@@ -43,15 +37,13 @@ const defaults = { port: 3000 }
     '/insufficient',
     { preHandler: [fastify.guard.role(['supervisor'])] },
     (req, reply) => {
-      // set return type
+      reply
       reply.type('application/json')
 
-      // return the user
       reply.send(req.user)
     }
   )
 
-  // initialize the fastify server
   fastify.listen(defaults.port, () => {
     console.log(
       chalk.bgYellow(
