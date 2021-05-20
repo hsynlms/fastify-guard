@@ -121,7 +121,7 @@ you are not allowed to call this route
 `npm install fastify-guard`
 
 ## Contribution
-Contributions and pull requests are kindly welcomed!
+Contributions and pull requests are kindly welcomed! Please follow [Contribution Guideline](https://github.com/hsynlms/fastify-guard/blob/master/CONTRIBUTING.md) before sending PRs.
 
 ## License
 This project is licensed under the terms of the [MIT license](https://github.com/hsynlms/fastify-guard/blob/master/LICENSE).
