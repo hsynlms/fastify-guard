@@ -12,8 +12,11 @@ const fastify = Fastify()
 
 fastify.register(fastifyGuard, {
   errorHandler: (result, req, reply) => {
-    return reply.send('Custom error message')
-  }
+    return reply.send('string')
+  },
+  requestProperty: 'string',
+  roleProperty: 'string',
+  scopeProperty: 'string'
 })
 
 ;(request: FastifyRequest, reply: FastifyReply) => {
@@ -26,5 +29,5 @@ fastify.register(fastifyGuard, {
   )
 }
 
-expectType<preHandlerHookHandler>(fastify.guard.role(['user']))
-expectType<preHandlerHookHandler>(fastify.guard.scope(['read']))
+expectType<preHandlerHookHandler>(fastify.guard.role(['string']))
+expectType<preHandlerHookHandler>(fastify.guard.scope(['string']))

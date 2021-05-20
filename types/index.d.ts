@@ -26,10 +26,14 @@ declare module 'fastify' {
 }
 
 declare const fastifyGuard: FastifyPluginCallback<{
-  errorHandler(
+  errorHandler?(
     result: createHttpError.HttpError,
     request: FastifyRequest,
     reply: FastifyReply
   ): any
+  requestProperty?: string
+  roleProperty?: string
+  scopeProperty?: string
 }>
+
 export default fastifyGuard
