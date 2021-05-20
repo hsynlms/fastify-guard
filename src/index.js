@@ -18,7 +18,7 @@ const checkScopeAndRole = (arr, req, options, property) => {
     const item = arr[i]
 
     if (typeof item !== 'string' && !Array.isArray(item)) {
-      return createError(500, `roles/scopes parameter excpected to be an array or string but got: ${typeof item}`)
+      return createError(500, `roles/scopes parameter expected to be an array or string but got: ${typeof item}`)
     }
   }
 
