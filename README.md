@@ -1,55 +1,24 @@
 # fastify-guard
-> A simple user role and scope checker plugin to protect endpoints for [Fastify](https://github.com/fastify/fastify).
+> A simple user role and scope check plugin to protect endpoints for [Fastify](https://github.com/fastify/fastify).
 
-[![NPM](https://nodei.co/npm/fastify-guard.png)](https://nodei.co/npm/fastify-guard/)
+[![Downloads](https://img.shields.io/npm/dm/fastify-guard.svg)](https://npmjs.com/fastify-guard)
+[![install size](https://packagephobia.com/badge?p=fastify-guard)](https://packagephobia.com/result?p=fastify-guard)
 
-`fastify-guard` is designed to protect API endpoints by checking authenticated user roles and/or scopes if they met or not. `guard` is the registered Fastify decorator and can be used in anywhere.
+`fastify-guard` is designed to protect API endpoints by checking authenticated user roles and/or scopes if they met. `guard` is the registered Fastify decorator and can be used in anywhere.
 
 Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jwt-permissions).
 
-## Options
+## Install
+```
+$ npm install fastify-guard
+```
 
-| Name              | Type       | Default   | Description                                                                                                          |
-| ---               | ---        | ---       | ---                                                                                                                  |
-| requestProperty   | string     | `user`    | The authenticated user property name that fastify-guard will search in request object                                |
-| roleProperty      | string     | `role`    | The role property name that fastify-guard will search in authenticated user object                                   |
-| scopeProperty     | string     | `scope`   | The scope property name that fastify-guard will search in authenticated user object                                  |
-| errorHandler      | function   | undefined | Custom error handler to manipulate the response that will be returned. As fallback, default HTTP error messages will be returned. |
-
-## API
-
-### `guard.role(role)`
-
-Returns a function which checks if the authenticated user has the given role(s). Multiple roles can be sent as separated parameters or in an array. If the given role(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
-
-### `guard.hasRole(request, role)`
-
-Returns a boolean value which indicates the authenticated user has the given role.
-
-`request` is the Fastify request object
-
-`role` is role name
-
-### `guard.scope(scope)`
-
-Returns a function which checks if the authenticated user has the given scope(s). Multiple scopes can be sent as separated parameters or in an array. If the given scope(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
-
-### `guard.hasScope(request, scope)`
-
-Returns a boolean value which indicates the authenticated user has the given scope.
-
-`request` is the Fastify request object
-
-`scope` is scope name
-
-## Examples
+## Usage
 
 ```js
-// get required modules
 const fastify = require('fastify')()
 const fastifyGuard = require('fastify-guard')
 
-// register fastify-guard plugin
 fastify.register(
   fastifyGuard,
   {
@@ -105,7 +74,6 @@ fastify.get(
   }
 )
 
-// initialize the fastify server
 fastify.listen(3000, () => {
   console.log('Fastify server is running on port: 3000')
 })
@@ -117,11 +85,37 @@ you are not allowed to call this route
 */
 ```
 
-## Installation
-`npm install fastify-guard`
+## Options
 
-## Contribution
-Contributions and pull requests are kindly welcomed! Please follow [Contribution Guideline](https://github.com/hsynlms/fastify-guard/blob/master/CONTRIBUTING.md) before sending PRs.
+| Name              | Type       | Default   | Description                                                                                                          |
+| ---               | ---        | ---       | ---                                                                                                                  |
+| requestProperty   | string     | `user`    | The authenticated user property name that fastify-guard will search in request object                                |
+| roleProperty      | string     | `role`    | The role property name that fastify-guard will search in authenticated user object                                   |
+| scopeProperty     | string     | `scope`   | The scope property name that fastify-guard will search in authenticated user object                                  |
+| errorHandler      | function   | undefined | Custom error handler to manipulate the response that will be returned. As fallback, default HTTP error messages will be returned. |
 
-## License
-This project is licensed under the terms of the [MIT license](https://github.com/hsynlms/fastify-guard/blob/master/LICENSE).
+## API
+
+### `guard.role(role)`
+
+Returns a function which checks if the authenticated user has the given role(s). Multiple roles can be sent as separated parameters or in an array. If the given role(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
+
+### `guard.hasRole(request, role)`
+
+Returns a boolean value which indicates the authenticated user has the given role.
+
+`request` is the Fastify request object
+
+`role` is role name
+
+### `guard.scope(scope)`
+
+Returns a function which checks if the authenticated user has the given scope(s). Multiple scopes can be sent as separated parameters or in an array. If the given scope(s) was not assigned to the authenticated user, the function will throw an HTTP Error (if no errorHandler provided in options otherwise the errorHandler will be invoked). The function supposed to be used in `preHandler` hook.
+
+### `guard.hasScope(request, scope)`
+
+Returns a boolean value which indicates the authenticated user has the given scope.
+
+`request` is the Fastify request object
+
+`scope` is scope name
