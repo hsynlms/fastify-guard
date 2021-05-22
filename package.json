@@ -18,7 +18,9 @@
     "guard",
     "permission",
     "role",
-    "scope"
+    "scope",
+    "api",
+    "protection"
   ],
   "author": "Huseyin ELMAS",
   "license": "MIT",
