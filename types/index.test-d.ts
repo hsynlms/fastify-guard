@@ -28,6 +28,9 @@ fastify.register(fastifyGuard, {
     fastify.guard.hasScope(request, 'read')
   )
 }
-
+expectType<preHandlerHookHandler>(fastify.guard.role('ceo'))
+expectType<preHandlerHookHandler>(fastify.guard.role('ceo', 'cto'))
 expectType<preHandlerHookHandler>(fastify.guard.role(['string']))
+expectType<preHandlerHookHandler>(fastify.guard.scope('profile'))
+expectType<preHandlerHookHandler>(fastify.guard.scope('profile', 'blog'))
 expectType<preHandlerHookHandler>(fastify.guard.scope(['string']))
