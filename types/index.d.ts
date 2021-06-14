@@ -15,8 +15,10 @@ interface FastifyGuard {
     request: FastifyRequest,
     scope: string
   ): boolean | createHttpError.HttpError
-  role(roles: string | string[]): preHandlerHookHandler
-  scope(scopes: string | string[]): preHandlerHookHandler
+  role(...roles: string[]): preHandlerHookHandler
+  role(roles: string[]): preHandlerHookHandler
+  scope(...scopes: string[]): preHandlerHookHandler
+  scope(scopes: string[]): preHandlerHookHandler
 }
 
 declare module 'fastify' {
