@@ -105,7 +105,7 @@ Guard.prototype = {
     return (req, reply, done) => {
       const result = checkScopeAndRole(roles, req, self._options, 'roleProperty')
 
-      // use cutom handler if possible
+      // use custom handler if possible
       if (result && self._options.errorHandler) {
         return self._options.errorHandler(result, req, reply)
       }
@@ -121,11 +121,11 @@ Guard.prototype = {
     // thanks javascript :)
     const self = this
 
-    // middleware to check authenticated user scıoe(s)
+    // middleware to check authenticated user scope(s)
     return (req, reply, done) => {
       const result = checkScopeAndRole(scopes, req, self._options, 'scopeProperty')
 
-      // use cutom handler if possible
+      // use custom handler if possible
       if (result && self._options.errorHandler) {
         return self._options.errorHandler(result, req, reply)
       }
