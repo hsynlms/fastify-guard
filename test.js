@@ -16,6 +16,7 @@ const generateServer =
         name: 'Huseyin',
         role: ['user', 'admin', 'editor'],
         scope: ['profile', 'email', 'openid'],
+        scp: 'profile email openid',
         location: 'Istanbul'
       }
 
@@ -687,6 +688,59 @@ test('custom error handler (insufficient case)', done => {
         (err, res) => {
           // eslint-disable-next-line
           expect(res.payload).toBe('custom error handler works!')
+          done()
+
+          fastify.close()
+        }
+      )
+    })
+})
+
+// eslint-disable-next-line
+test('OIDC style hasScope check', done => {
+  generateServer({
+    scopeProperty: 'scp'
+  })
+    .then(fastify => {
+      fastify.get('/', (req, reply) => {
+        const isOk = fastify.guard.hasScope(req, 'profile')
+        reply.send(isOk)
+      })
+
+      fastify.inject(
+        { method: 'GET', url: '/' },
+        // eslint-disable-next-line
+        (err, res) => {
+          // eslint-disable-next-line
+          expect(res.payload).toBe('true')
+          done()
+
+          fastify.close()
+        }
+      )
+    })
+})
+
+// eslint-disable-next-line
+test('OIDC style scope permission (check OR case by providing two scopes as arguments)', done => {
+  generateServer({
+    scopeProperty: 'scp'
+  })
+    .then(fastify => {
+      fastify.get(
+        '/',
+        { preHandler: [fastify.guard.scope('email', ['user:read'])] },
+        (req, reply) => {
+          reply.send()
+        }
+      )
+
+      fastify.inject(
+        { method: 'GET', url: '/' },
+        // eslint-disable-next-line
+        (err, res) => {
+          // eslint-disable-next-line
+          expect(res.payload).toBe('')
           done()
 
           fastify.close()

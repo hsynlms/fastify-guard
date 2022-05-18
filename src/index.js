@@ -27,9 +27,13 @@ const checkScopeAndRole = (arr, req, options, property) => {
     return createError(500, `user object (${options.requestProperty}) was not found in request object`)
   }
 
-  const permissions = get(user, options[property], undefined)
+  let permissions
+  permissions = get(user, options[property], undefined)
   if (typeof permissions === 'undefined') {
     return createError(500, `${property} was not found in user object`)
+  }
+  if (typeof permissions === 'string' && property === 'scopeProperty') {
+    permissions = permissions.split(' ')
   }
 
   if (!Array.isArray(permissions)) {
@@ -76,10 +80,15 @@ const hasScopeAndRole = (value, req, options, property) => {
     throw new Error('"user" was not found in the request')
   }
 
-  const permissions = get(user, options[property], undefined)
+  let permissions
+  permissions = get(user, options[property], undefined)
 
   if (typeof permissions === 'undefined') {
     throw new Error(`"${property}" was not found in user object`)
+  }
+
+  if (typeof permissions === 'string' && property === 'scopeProperty') {
+    permissions = permissions.split(' ')
   }
 
   if (!Array.isArray(permissions)) {
