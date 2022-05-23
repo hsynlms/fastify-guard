@@ -29,15 +29,15 @@
   "homepage": "https://github.com/hsynlms/fastify-guard#readme",
   "dependencies": {
     "fastify-plugin": "^3.0.0",
-    "http-errors": "^1.8.0",
+    "http-errors": "^2.0.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
     "@types/http-errors": "^1.8.0",
     "fastify": "^3.17.0",
-    "jest": "^27.0.4",
-    "standard": "^16.0.3",
-    "tsd": "^0.17.0"
+    "jest": "^28.1.0",
+    "standard": "^17.0.0",
+    "tsd": "^0.20.0"
   },
   "types": "types"
 }
