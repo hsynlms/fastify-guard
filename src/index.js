@@ -160,7 +160,7 @@ function guardPlugin (fastify, opts, next) {
 module.exports = fastifyPlugin(
   guardPlugin,
   {
-    fastify: '3.x',
+    fastify: '4.x',
     name: pkg.name
   }
 )
