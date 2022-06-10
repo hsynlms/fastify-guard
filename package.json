@@ -27,6 +27,9 @@
     "url": "https://github.com/hsynlms/fastify-guard/issues"
   },
   "homepage": "https://github.com/hsynlms/fastify-guard#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "fastify-plugin": "^3.0.0",
     "http-errors": "^2.0.0",
