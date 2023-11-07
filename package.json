@@ -32,8 +32,7 @@
   },
   "dependencies": {
     "fastify-plugin": "^3.0.1",
-    "http-errors": "^2.0.0",
-    "lodash.get": "^4.4.2"
+    "http-errors": "^2.0.0"
   },
   "devDependencies": {
     "@types/http-errors": "^1.8.2",

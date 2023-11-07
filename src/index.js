@@ -1,7 +1,6 @@
 'use strict'
 
 const fastifyPlugin = require('fastify-plugin')
-const get = require('lodash.get')
 const createError = require('http-errors')
 const pkg = require('../package.json')
 
@@ -22,14 +21,14 @@ const checkScopeAndRole = (arr, req, options, property) => {
     }
   }
 
-  const user = get(req, options.requestProperty, undefined)
-  if (typeof user === 'undefined') {
+  const user = req[options.requestProperty]
+  if (!user) {
     return createError(500, `user object (${options.requestProperty}) was not found in request object`)
   }
 
   let permissions
-  permissions = get(user, options[property], undefined)
-  if (typeof permissions === 'undefined') {
+  permissions = user[options[property]]
+  if (!permissions) {
     return createError(500, `${property} was not found in user object`)
   }
   if (typeof permissions === 'string' && property === 'scopeProperty') {
@@ -74,16 +73,16 @@ const hasScopeAndRole = (value, req, options, property) => {
     throw new Error('"value" cannot be empty.')
   }
 
-  const user = get(req, options.requestProperty, undefined)
+  const user = req[options.requestProperty]
 
   if (!user) {
     throw new Error('"user" was not found in the request')
   }
 
   let permissions
-  permissions = get(user, options[property], undefined)
+  permissions = user[options[property]]
 
-  if (typeof permissions === 'undefined') {
+  if (!permissions) {
     throw new Error(`"${property}" was not found in user object`)
   }
 
