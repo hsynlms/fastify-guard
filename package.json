@@ -1,7 +1,7 @@
 {
   "name": "fastify-guard",
   "version": "3.0.0",
-  "description": "a simple user role and scope checker plugin to protect endpoints for Fastify",
+  "description": "A simple user role and scope checker plugin to protect endpoints for Fastify",
   "main": "src/index.js",
   "scripts": {
     "test": "jest --verbose -i test.js -t",
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/hsynlms/fastify-guard#readme",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^5.0.1",
