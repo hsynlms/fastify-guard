@@ -8,8 +8,6 @@
 
 Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jwt-permissions).
 
-**Note:** Fastify v4 support is shipped with v2.0.0.
-
 ## Install
 ```
 $ npm install fastify-guard
