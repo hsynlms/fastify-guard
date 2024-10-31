@@ -15,6 +15,14 @@ Inspired by [express-jwt-permissions](https://github.com/MichielDeMey/express-jw
 $ npm install fastify-guard
 ```
 
+### Compatibility
+
+| Plugin version | Fastify version |
+| -------------- |---------------- |
+| `^3.0.0`       | `^5.0.0`        |
+| `^2.0.0`       | `^4.0.0`        |
+| `^1.0.0`       | `^3.0.0`        |
+
 ## Usage
 
 ```js
