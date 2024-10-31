@@ -32,7 +32,7 @@ declare const fastifyGuard: FastifyPluginCallback<{
     result: createHttpError.HttpError,
     request: FastifyRequest,
     reply: FastifyReply
-  ): any
+  ): void
   requestProperty?: string
   roleProperty?: string
   scopeProperty?: string

@@ -11,9 +11,7 @@ import fastifyGuard from '.'
 const fastify = Fastify()
 
 fastify.register(fastifyGuard, {
-  errorHandler: (result, req, reply) => {
-    return reply.send('string')
-  },
+  errorHandler: (result, req, reply) => reply.send('string'),
   requestProperty: 'string',
   roleProperty: 'string',
   scopeProperty: 'string'
@@ -28,6 +26,7 @@ fastify.register(fastifyGuard, {
     fastify.guard.hasScope(request, 'read')
   )
 }
+
 expectType<preHandlerHookHandler>(fastify.guard.role('ceo'))
 expectType<preHandlerHookHandler>(fastify.guard.role('ceo', 'cto'))
 expectType<preHandlerHookHandler>(fastify.guard.role(['string']))
