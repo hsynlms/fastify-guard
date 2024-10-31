@@ -47,10 +47,10 @@ const checkScopeAndRole = (arr, req, options, property) => {
       sufficient || (
         Array.isArray(x)
           ? x.every(
-              scope => {
-                return permissions.indexOf(scope) >= 0
-              }
-            )
+            scope => {
+              return permissions.indexOf(scope) >= 0
+            }
+          )
           : permissions.indexOf(x) >= 0
       )
   })
