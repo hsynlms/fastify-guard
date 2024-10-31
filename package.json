@@ -41,5 +41,10 @@
     "standard": "^17.0.0",
     "tsd": "^0.31.2"
   },
-  "types": "types"
+  "types": "types",
+  "standard": {
+    "ignore": [
+      "/types"
+    ]
+  }
 }
