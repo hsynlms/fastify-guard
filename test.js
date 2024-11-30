@@ -10,11 +10,12 @@ const generateServer =
     await fastify.register(fastifyGuard, pluginOpts)
 
     // simulation for user authentication process
-    fastify.addHook('onRequest', (req, reply, done) => {
+    fastify.addHook('onRequest', (req, _, done) => {
       req.user = {
         id: 306,
         name: 'Huseyin',
         role: ['user', 'admin', 'editor'],
+        rl: 'user admin editor',
         scope: ['profile', 'email', 'openid'],
         scp: 'profile email openid',
         location: 'Istanbul'
@@ -730,6 +731,59 @@ test('OIDC style scope permission (check OR case by providing two scopes as argu
       fastify.get(
         '/',
         { preHandler: [fastify.guard.scope('email', ['user:read'])] },
+        (req, reply) => {
+          reply.send()
+        }
+      )
+
+      fastify.inject(
+        { method: 'GET', url: '/' },
+        // eslint-disable-next-line
+        (err, res) => {
+          // eslint-disable-next-line
+          expect(res.payload).toBe('')
+          done()
+
+          fastify.close()
+        }
+      )
+    })
+})
+
+// eslint-disable-next-line
+test('OIDC style hasRole check', done => {
+  generateServer({
+    roleProperty: 'rl'
+  })
+    .then(fastify => {
+      fastify.get('/', (req, reply) => {
+        const isOk = fastify.guard.hasRole(req, 'editor')
+        reply.send(isOk)
+      })
+
+      fastify.inject(
+        { method: 'GET', url: '/' },
+        // eslint-disable-next-line
+        (err, res) => {
+          // eslint-disable-next-line
+          expect(res.payload).toBe('true')
+          done()
+
+          fastify.close()
+        }
+      )
+    })
+})
+
+// eslint-disable-next-line
+test('OIDC style role permission (check OR case by providing two roles as arguments)', done => {
+  generateServer({
+    roleProperty: 'rl'
+  })
+    .then(fastify => {
+      fastify.get(
+        '/',
+        { preHandler: [fastify.guard.role('cto', 'admin')] },
         (req, reply) => {
           reply.send()
         }
