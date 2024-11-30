@@ -31,7 +31,8 @@ const checkScopeAndRole = (arr, req, options, property) => {
   if (!permissions) {
     return createError(500, `${property} was not found in user object`)
   }
-  if (typeof permissions === 'string' && property === 'scopeProperty') {
+
+  if (typeof permissions === 'string') {
     permissions = permissions.split(' ')
   }
 
@@ -86,7 +87,7 @@ const hasScopeAndRole = (value, req, options, property) => {
     throw new Error(`"${property}" was not found in user object`)
   }
 
-  if (typeof permissions === 'string' && property === 'scopeProperty') {
+  if (typeof permissions === 'string') {
     permissions = permissions.split(' ')
   }
 
