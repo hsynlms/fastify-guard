@@ -13,23 +13,18 @@ const defaults = {
 }
 
 const checkScopeAndRole = (arr, req, options, property) => {
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i]
-
-    if (typeof item !== 'string' && !Array.isArray(item)) {
-      return createError(500, `roles/scopes parameter expected to be an array or string but got: ${typeof item}`)
-    }
+  if (!arr.every(item => typeof item === 'string' || Array.isArray(item))) {
+    return createError(500, 'roles/scopes parameter expected to be an array or string')
   }
 
   const user = req[options.requestProperty]
   if (!user) {
-    return createError(500, `user object (${options.requestProperty}) was not found in request object`)
+    return createError(500, `user object ${options.requestProperty} was not found in request object`)
   }
 
-  let permissions
-  permissions = user[options[property]]
+  let permissions = user[options[property]]
   if (!permissions) {
-    return createError(500, `${property} was not found in user object`)
+    return createError(500, `${property} was not found in the user object`)
   }
 
   if (typeof permissions === 'string') {
@@ -37,54 +32,40 @@ const checkScopeAndRole = (arr, req, options, property) => {
   }
 
   if (!Array.isArray(permissions)) {
-    return createError(500, `${property} expected to be an aray but got: ${typeof permissions}`)
+    return createError(500, `${property} expected to be an array but got: ${typeof permissions}`)
   }
 
-  let sufficient = false
-
   // loop roles/scopes array list (may contain sub arrays)
-  arr.forEach(x => {
-    sufficient =
-      sufficient || (
-        Array.isArray(x)
-          ? x.every(
-            scope => {
-              return permissions.indexOf(scope) >= 0
-            }
-          )
-          : permissions.indexOf(x) >= 0
-      )
-  })
+  const sufficient = arr.some(x =>
+    Array.isArray(x)
+      ? x.every(scope => permissions.includes(scope))
+      : permissions.includes(x)
+  )
 
-  return sufficient
-    ? null
-    : createError(403, 'insufficient permission')
+  return sufficient ? null : createError(403, 'insufficient permission')
 }
 
 const hasScopeAndRole = (value, req, options, property) => {
-  if (typeof req !== 'object') {
-    throw new Error(`"request" is expected to be an object but got: ${typeof req}`)
+  if (typeof value !== 'string') {
+    throw new Error(`role/scope value is expected to be a non-empty string but got: ${typeof value}`)
   }
 
-  if (typeof value !== 'string') {
-    throw new Error(`"value" is expected to be a string but got: ${typeof value}`)
+  if (typeof req !== 'object') {
+    throw new Error(`request is expected to be an object but got: ${typeof req}`)
   }
 
   if (!value) {
-    throw new Error('"value" cannot be empty.')
+    throw new Error('role/scope value is expected to be a non-empty string')
   }
 
   const user = req[options.requestProperty]
-
   if (!user) {
-    throw new Error('"user" was not found in the request')
+    throw new Error(`user object ${options.requestProperty} was not found in request object`)
   }
 
-  let permissions
-  permissions = user[options[property]]
-
+  let permissions = user[options[property]]
   if (!permissions) {
-    throw new Error(`"${property}" was not found in user object`)
+    throw new Error(`${property} was not found in the user object`)
   }
 
   if (typeof permissions === 'string') {
@@ -92,10 +73,10 @@ const hasScopeAndRole = (value, req, options, property) => {
   }
 
   if (!Array.isArray(permissions)) {
-    throw new Error(`"${property}" expected to be an aray but got: ${typeof permissions}`)
+    throw new Error(`${property} expected to be an array but got: ${typeof permissions}`)
   }
 
-  return permissions.indexOf(value) >= 0
+  return permissions.includes(value)
 }
 
 const Guard = function (options) {
